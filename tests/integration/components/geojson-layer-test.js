@@ -103,4 +103,21 @@ module('Integration | Component | geojson layer', function(hooks) {
     polygonPath = this.$('path');
     assert.strictEqual(polygonPath.length, 1);
   });
+  
+  test('changing color attribute should reflect changes in GUI', async function(assert) {
+    this.set('color', '#5a39c3');
+    await render(hbs`
+      {{#leaflet-map zoom=zoom center=center}}
+        {{geojson-layer geoJSON=sampleGeoJSON color=color}}
+      {{/leaflet-map}}
+    `);
+
+    let polygonStroke = this.$('path')[0].getAttribute("stroke");
+    assert.strictEqual(polygonStroke, '#5a39c3');
+
+    this.set('color', '#39c374');
+
+    polygonStroke = this.$('path')[0].getAttribute("stroke");
+    assert.strictEqual(polygonStroke, '#39c374');
+  });
 });

@@ -1,4 +1,5 @@
 import Mixin from '@ember/object/mixin';
+import { computed } from '@ember/object';
 
 export default Mixin.create({
 
@@ -17,6 +18,17 @@ export default Mixin.create({
     this._removeStyleObservers();
     this._super(...arguments);
   },
+
+  styles: computed('stroke', 'color', 'weight', 'opacity', 'fill', 'fillColor', 'fillOpacity', 'fillRule', 'dashArray', 'lineCap', 'lineJoin', 'clickable', 'pointerEvents', 'className', function() {
+    let leafletOptions = this.get('leafletStyleProperties');
+    let styles = {};
+    leafletOptions.forEach((styleName) => {
+      if (this.get(styleName) !== undefined) {
+        styles[styleName] = this.get(styleName);
+      }
+    });
+    return styles;
+  }),
 
   _addStyleObservers() {
     this._styleObservers = {};

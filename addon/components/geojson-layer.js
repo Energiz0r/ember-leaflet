@@ -33,6 +33,16 @@ export default BaseLayer.extend(DivOverlayableMixin, StyleMixin, {
     if (geoJSON) {
       this.pushDataToLeaflet(geoJSON);
     }
+
+    this.pushStylesToLeaflet(this.get('styles'));
+  },
+
+  pushStylesToLeaflet(styles){
+    if (!this._layer) {
+      return;
+    }
+
+    this._layer.setStyle(styles);
   },
 
   pushDataToLeaflet(geoJSON) {
